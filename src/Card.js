@@ -1,9 +1,9 @@
 import React from 'react'
 
-import useBoards from './useBoards'
+import useCard from './useCard'
 
 function Card({ boardId, columnId, cardId }) {
-  const { card } = useBoards({ boardId, columnId, cardId })
+  const card = useCard({ boardId, columnId, cardId })
 
   return (
     <div style={{ display: 'flex' }}>

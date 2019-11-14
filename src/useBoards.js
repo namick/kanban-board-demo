@@ -1,58 +1,39 @@
 import React from 'react'
 
+import shortid from 'shortid'
 import ReducerContext from './ReducerContext'
 import entitiesFromIds from './entitiesFromIds'
+import { boardTitles, columnNames, cardTexts } from './initialData'
 
 const useBoards = ({ boardId, columnId, cardId } = {}) => {
   const { state, dispatch } = React.useContext(ReducerContext)
-  const { boardOrder, board, column, card } = entitiesFromIds(state, boardId, columnId, cardId)
+  const { boardOrder } = entitiesFromIds(state, boardId, columnId, cardId)
+
+  const handleReset = () => {
+    boardTitles.forEach(title => {
+      const boardId = shortid.generate()
+      dispatch({ type: 'addBoard', newBoard: { title, id: boardId } })
+
+      columnNames.forEach(name => {
+        const columnId = shortid.generate()
+        dispatch({ type: 'addColumn', boardId, newColumn: { id: columnId, name } })
+
+        cardTexts().forEach(text => {
+          const newCard = { id: shortid.generate(), text }
+          dispatch({ type: 'addCard', boardId, columnId, newCard })
+        })
+      })
+    })
+  }
 
   const handleAddBoard = () => {
     const title = prompt('Add a Board')
-    const id = `Board${new Date().getTime()}`
+    const id = shortid.generate()
     const newBoard = { id, title, columns: {}, columnOrder: [] }
     dispatch({ type: 'addBoard', newBoard })
   }
 
-  if (board) {
-    board.addColumn = () => {
-      const name = prompt('Add a Column')
-      const id = `column${new Date().getTime()}`
-      const newColumn = { id, name, cards: {}, cardOrder: [] }
-      dispatch({ type: 'addColumn', boardId, newColumn })
-    }
-  }
-
-  if (column) {
-    column.addCard = () => {
-      const text = prompt('Add a Card')
-      const id = `card${new Date().getTime()}`
-      const newCard = { id, text }
-      dispatch({ type: 'addCard', boardId, columnId, cardId, newCard })
-    }
-    column.remove = () => {
-      dispatch({ type: 'removeColumn', boardId, columnId })
-    }
-  }
-
-  if (card) {
-    const offsetColumn = offset => board.columns[board.columnOrder[column.position + offset]]
-    card.showMoveLeft = !column.isFirst
-    card.moveLeft = () => {
-      dispatch({ type: 'addCard', boardId, columnId: offsetColumn(-1).id, newCard: card })
-      dispatch({ type: 'removeCard', boardId, columnId, cardId })
-    }
-    card.showMoveRight = !column.isLast
-    card.moveRight = () => {
-      dispatch({ type: 'addCard', boardId, columnId: offsetColumn(1).id, newCard: card })
-      dispatch({ type: 'removeCard', boardId, columnId, cardId })
-    }
-    card.remove = () => {
-      dispatch({ type: 'removeCard', boardId, columnId, cardId })
-    }
-  }
-
-  return { boardOrder, handleAddBoard, board, column, card }
+  return { boardOrder, handleReset, handleAddBoard }
 }
 
 export default useBoards

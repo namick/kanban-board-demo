@@ -1,10 +1,10 @@
 import React from 'react'
 
-import useBoards from './useBoards'
+import useColumn from './useColumn'
 import Card from './Card'
 
 function Column({ boardId, columnId }) {
-  const { column } = useBoards({ boardId, columnId })
+  const column = useColumn({ boardId, columnId })
 
   return (
     <div style={{ margin: '25px 0 25px 25px', width: '100%' }}>

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import useBoards from './useBoards'
+import useBoard from './useBoard'
 import Column from './Column'
 
 function Board({ boardId }) {
-  const { board } = useBoards({ boardId })
+  const board = useBoard({ boardId })
 
   return (
     <div>

@@ -4,7 +4,7 @@ import useBoards from './useBoards'
 import Board from './Board'
 
 function Boards() {
-  const { boardOrder, handleAddBoard } = useBoards()
+  const { boardOrder, handleAddBoard, handleReset } = useBoards()
 
   return (
     <>
@@ -12,6 +12,7 @@ function Boards() {
         <Board boardId={id} key={id} />
       ))}
       <button onClick={handleAddBoard}>Add a Board</button>
+      <button onClick={handleReset}>Reset</button>
     </>
   )
 }

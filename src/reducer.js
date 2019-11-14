@@ -1,8 +1,19 @@
 import entitiesFromIds from './entitiesFromIds'
 import { setBoards } from './localStorage'
 
-const reducer = (state, { type, boardId, columnId, cardId, newCard, newColumn, newBoard }) => {
+const reducer = (state, action) => {
+  const { type, boardId, columnId, cardId, newCard, newColumn, newBoard } = action
   const { board, column, card } = entitiesFromIds(state, boardId, columnId, cardId)
+
+  if (newColumn) {
+    newColumn.cards = newColumn.cards ? newColumn.cards : {}
+    newColumn.cardOrder = newColumn.cardOrder ? newColumn.cardOrder : []
+  }
+
+  if (newBoard) {
+    newBoard.columns = newBoard.columns ? newBoard.columns : {}
+    newBoard.columnOrder = newBoard.columnOrder ? newBoard.columnOrder : []
+  }
 
   switch (type) {
     case 'addCard':
