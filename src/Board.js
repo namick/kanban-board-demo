@@ -1,23 +1,33 @@
 import React from 'react'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 
 import useBoard from './useBoard'
 import Column from './Column'
+
+function Title({ children }) {
+  return (
+    <Box color="secondary.dark" padding={3} margin={1} fontWeight="fontWeightBold">
+      <Typography variant="h2" align="center">
+        {children}
+      </Typography>
+    </Box>
+  )
+}
 
 function Board({ boardId }) {
   const board = useBoard({ boardId })
 
   return (
-    <div>
-      <div>
-        <h2>{board.title}</h2>
-      </div>
-      <button onClick={board.addColumn}>Add a Column</button>
-      <div style={{ display: 'flex', paddingRight: '25px' }}>
+    <Box marginY={4}>
+      <Title>{board.title}</Title>
+
+      <Box display="flex">
         {board.columnOrder.map(id => (
           <Column boardId={boardId} columnId={id} key={id} />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
