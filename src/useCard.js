@@ -8,21 +8,17 @@ const useCard = ({ boardId, columnId, cardId } = {}) => {
 
   const offsetColumn = offset => board.columns[board.columnOrder[column.position + offset]]
 
-  card.showMoveLeft = !column.isFirst
+  card.moveLeftVisibility = column.isFirst ? 'hidden' : 'visible'
 
-  card.moveLeft = () => {
+  card.handleMoveLeft = () => {
     dispatch({ type: 'addCard', boardId, columnId: offsetColumn(-1).id, newCard: card })
     dispatch({ type: 'removeCard', boardId, columnId, cardId })
   }
 
-  card.showMoveRight = !column.isLast
+  card.moveRightVisibility = column.isLast ? 'hidden' : 'visible'
 
-  card.moveRight = () => {
+  card.handleMoveRight = () => {
     dispatch({ type: 'addCard', boardId, columnId: offsetColumn(1).id, newCard: card })
-    dispatch({ type: 'removeCard', boardId, columnId, cardId })
-  }
-
-  card.remove = () => {
     dispatch({ type: 'removeCard', boardId, columnId, cardId })
   }
 

@@ -1,5 +1,6 @@
 import entitiesFromIds from './entitiesFromIds'
 import { setBoards } from './localStorage'
+import initialData from './initialData'
 
 const reducer = (state, action) => {
   const { type, boardId, columnId, cardId, newCard, newColumn, newBoard } = action
@@ -39,6 +40,10 @@ const reducer = (state, action) => {
     case 'addBoard':
       state.boards[newBoard.id] = newBoard
       state.boardOrder.push(newBoard.id)
+      break
+
+    case 'reset':
+      state = initialData()
       break
 
     default:
